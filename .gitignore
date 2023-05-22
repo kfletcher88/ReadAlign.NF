@@ -1,0 +1,6 @@
+./work
+./BAMs
+./VCF
+./coverage.txt
+./.nextflow*
+./trace*

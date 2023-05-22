@@ -1,0 +1,4 @@
+SampleID,FCID,Read1,Read2
+Ecoli_1,Sim1,Reads/EcoliSS_1.1.fq,Reads/EcoliSS_1.2.fq
+Ecoli_2,Sim1,Reads/EcoliSS_2.1.fq,Reads/EcoliSS_2.2.fq
+Ecoli_2,Sim2,Reads/EcoliSS_3.1.fq,Reads/EcoliSS_3.2.fq
