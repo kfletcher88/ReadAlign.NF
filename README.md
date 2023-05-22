@@ -15,6 +15,7 @@ The pipeline is containerized using conda.\
 To run the piepline please:
 ```
 git clone https://github.com/kfletcher88/ReadAlign.NF.git
+cd ReadAlign.NF
 nextflow run ReadAlign.nf --reference Ref/GCA_000005845.2_ASM584v2_genomic.fna
 ```
 
