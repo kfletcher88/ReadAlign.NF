@@ -1,6 +1,6 @@
 # ReadAlign.NF
 A nextflow pipeline to align reads to a reference, merge common sample IDs and call SNPs.\
-Toy data has been provided using *E. coli* genome assembly [GCA_000005845.2](https://www.ncbi.nlm.nih.gov/assembly/GCF_000005845.2/). These are available under `./ref` and `./reads`.\
+Toy data has been provided using *E. coli* genome assembly [GCA_000005845.2](https://www.ncbi.nlm.nih.gov/assembly/GCF_000005845.2/). These are available under `./Ref` and `./Reads`.\
 The pipeline requires a CSV file, as below. The file `Reads.csv` can be used to run the toy data.
 ```
 SampleID,FCID,Read1,Read2
