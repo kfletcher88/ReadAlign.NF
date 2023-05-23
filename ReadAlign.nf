@@ -66,10 +66,11 @@ process Merge {
 	input:
 	tuple val(SampleID), val(FCID), path(SampleBAM)
 
-	publishDir params.outBAM, mode: 'copy', overwrite: true
+//If copy is preferred add, "mode: 'copy', overwrite: true" below
+	publishDir params.outBAM
 	output:
 	path "${SampleID}*merge.bam"
-	tuple path("${SampleID}*merge.bam"), val(SampleID), emit: tuple
+	tuple path("${SampleID}*merge.bam"), val(SampleID), path("cov.txt"), emit: tuple
 
 //The code is shell so that environmentatl variable can be set
 	shell:
@@ -83,6 +84,7 @@ process Merge {
 	fi
 	bedtools genomecov -ibam !{SampleID}.${length}FCs_merge.bam > !{SampleID}.${length}FCs_merge.GenCov
 	cov=$(sort -grk5,5 !{SampleID}.${length}FCs_merge.GenCov | head -n 1 | cut -f 2)
+	echo $cov > cov.txt
 	echo -e "!{SampleID}\t$length\t$cov\t!{params.outVCF}/!{SampleID}.vcf\t!{params.outBAM}/!{SampleID}.${length}FCs_merge.bam\t!{FCID}" >> !{PWD}/coverage.txt
 	'''
 }
@@ -92,15 +94,16 @@ process FreeBayes {
 	debug true
 	conda 'freebayes=1.3.6'
 	input:
-	tuple path(SampleBAM), val(SampleID)
+	tuple path(SampleBAM), val(SampleID), path(cov)
 	path reference
 
-	publishDir params.outVCF, mode: 'copy', overwrite: true
+	publishDir params.outVCF
 	output:
-	path "${SampleID}.vcf"
+	path "${SampleID}*.vcf"
 
 	"""
-	freebayes -f $reference -C2 $SampleBAM > ${SampleID}.vcf
+	cov="\$(cat ${cov})"
+	freebayes -f $reference -C2 $SampleBAM > ${SampleID}_\${cov}x.vcf
 	"""
 }
 
@@ -125,6 +128,6 @@ workflow {
 	Merge(merge_in)
 //Code to rename tuple headers
 	FB_ch = Merge.out.tuple \
-	| map { SampleBAM, SampleID -> tuple( SampleBAM, SampleID ) }
+	| map { SampleBAM, SampleID, cov -> tuple( SampleBAM, SampleID, cov ) }
 	FreeBayes(FB_ch, ref)
 }
