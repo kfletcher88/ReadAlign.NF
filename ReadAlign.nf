@@ -67,7 +67,7 @@ process Merge {
 	tuple val(SampleID), val(FCID), path(SampleBAM)
 
 //If copy is preferred add, "mode: 'copy', overwrite: true" below
-	publishDir params.outBAM
+	publishDir params.outBAM, saveAs: { filename -> filename.equals('cov.txt') ? null : filename }
 	output:
 	path "${SampleID}*merge.bam"
 	tuple path("${SampleID}*merge.bam"), val(SampleID), path("cov.txt"), emit: tuple
