@@ -10,7 +10,7 @@ Ecoli_2,Sim2,Reads/EcoliSS_3.1.fq,Reads/EcoliSS_3.2.fq
 ```
 
 A nextflow installation is required to run the pipeline.\
-The pipeline is containerized using conda.\
+The pipeline is containerized using conda.
 
 To run the piepline please:
 ```
@@ -19,6 +19,6 @@ cd ReadAlign.NF
 nextflow run ReadAlign.nf --reference Ref/GCA_000005845.2_ASM584v2_genomic.fna
 ```
 
-Note that resume is automatic, specified in the `nextflow.config` file.\
+Note that resume is automatic, specified in the `nextflow.config` file.
 
 Last tested 05/22/2023
