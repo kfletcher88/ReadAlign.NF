@@ -83,7 +83,7 @@ process Merge {
 		samtools merge !{SampleID}.${length}FCs_merge.bam !{SampleBAM}
 	fi
 	bedtools genomecov -ibam !{SampleID}.${length}FCs_merge.bam > !{SampleID}.${length}FCs_merge.GenCov
-	cov=$(sort -grk5,5 !{SampleID}.${length}FCs_merge.GenCov | head -n 1 | cut -f 2)
+	cov=$(sort -grk5,5 !{SampleID}.${length}FCs_merge.GenCov | awk '$1 == "genome"' | head -n 1 | cut -f 2)
 	echo $cov > cov.txt
 	echo -e "!{SampleID}\t$length\t$cov\t!{params.outVCF}/!{SampleID}.vcf\t!{params.outBAM}/!{SampleID}.${length}FCs_merge.bam\t!{FCID}" >> !{PWD}/coverage.txt
 	'''
