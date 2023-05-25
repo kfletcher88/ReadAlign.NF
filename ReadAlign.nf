@@ -92,7 +92,7 @@ process Merge {
 //Run FreeBayes. This process will output the VCF into the VCF directory
 process FreeBayes {
 	debug true
-	conda 'freebayes=1.3.6'
+	conda 'freebayes=1.3.6 samtools=1.17'
 	input:
 	tuple path(SampleBAM), val(SampleID), path(cov)
 	path reference
@@ -103,6 +103,7 @@ process FreeBayes {
 
 	"""
 	cov="\$(cat ${cov})"
+	samtools faidx $reference
 	freebayes -f $reference -C2 $SampleBAM > ${SampleID}_\${cov}x.vcf
 	"""
 }
